@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <h2 class="panel-title col-md-8">Categories List</h2>
+                <div class="col-md-4">
+                    <button class="btn btn-success btn-xs pull-right" data-toggle="modal" data-target="#category_add">Add Category</button>
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-bordered table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of categories|paginate: { itemsPerPage: 5, currentPage: p, totalItems: pagination.count }">
+                            <td>{{ c.id }}</td>
+                            <td>{{ c.name }}</td>
+                            <td>{{ c.created_at}}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs" (click)="showEditCategoryAction(c)"><i class="fa fa-pencil-square-o"></i></button>
+                                <button class="btn btn-danger btn-xs" (click)="showDeleteConfirmationAction(c)"><i class="fa fa-trash-o" ></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <nav>
+                                <pagination-controls (pageChange)="pageChanged(p = $event)" directionLinks="true"></pagination-controls>
+                            </nav>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<app-category-add (doRefresh)="refreshData($event)"></app-category-add>
+<app-category-edit [childCategory]="category" (doRefresh)="refreshData($event)" ></app-category-edit>
